@@ -25,7 +25,8 @@
           bringing together my projects, ideas and portfolios into one connected space.
         </p>
         <div class="hero-actions">
-          <a class="btn primary" href="#projects">see my work</a>
+          <a class="btn primary" href="#projects">portfolios</a>
+          <a class="btn primary" href="#recent">recent projects</a>
           <a class="btn" href="#about">about me</a>
         </div>
       </div>
@@ -80,6 +81,29 @@
         </div>
       </div>
       <div class="projects-grid" id="projectsGrid">
+        <!-- cards injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RECENT PROJECTS ── -->
+  <section id="recent" class="section">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Recent Projects</h2>
+          <p class="section-note">Cool projects I've been working on lately:</p>
+        </div>
+        <div class="scroll-btns">
+          <button class="scroll-btn" id="recentPrev">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="scroll-btn" id="recentNext">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="recent-track">
         <!-- cards injected by JS -->
       </div>
     </div>
@@ -143,7 +167,7 @@
       }
     ];
 
-    const placeholderEmojis = ["🌿","🌅","✦","◎","◈"];
+    const placeholderEmojis = ["","","","",""];
 
     /* ── BUILD CARDS ── */
     const grid = document.getElementById('projectsGrid');
@@ -177,7 +201,76 @@
       grid.appendChild(card);
     });
 
-    /* ── MODAL LOGIC ── */
+    /* ── RECENT PROJECTS DATA — edit to add/update ── */
+    const recentProjects = [
+      {
+        title: "JS virtual horizon - PC ",
+        tag: "CODING",
+        thumb: "photo5.png",
+        desc: "a simple Javascript that takes input from your mouse. the input is then used to give controls to your virtual plane ",
+        year: "aviation-related",
+        link: "https://dsnzbee.github.io/photos/"
+      },
+      {
+        title: "JS virtual horizon - Mobile",
+        tag: "CODING",
+        thumb: "photo5.png",
+        desc: "a simple Javascript that takes input from your mobile gyro. the input is then used to give controls to your virtual plane ",
+        year: "aviation-related",
+        link: "https://dsnzbee.github.io/photos/"
+      },
+    ];
+
+    const recentTrack = document.querySelector('.recent-track');
+
+    recentProjects.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'recent-card';
+
+      const imgHtml = p.thumb
+        ? `<img src="${p.thumb}" alt="${p.title}" loading="lazy">`
+        : `<div class="img-placeholder"><span>${placeholderEmojis[i % placeholderEmojis.length]}</span></div>`;
+
+      card.innerHTML = `
+        <div class="recent-card-img">
+          ${imgHtml}
+          <span class="project-card-tag">${p.tag}</span>
+        </div>
+        <div class="recent-card-body">
+          <h3>${p.title}</h3>
+          <p class="recent-card-desc">${p.desc}</p>
+          <span class="card-meta">${p.year}</span>
+        </div>
+      `;
+
+      recentTrack.appendChild(card);
+    });
+
+    /* drag-to-scroll */
+    let isDown = false, startX, scrollLeft;
+    recentTrack.addEventListener('mousedown', e => {
+      isDown = true;
+      recentTrack.classList.add('dragging');
+      startX = e.pageX - recentTrack.offsetLeft;
+      scrollLeft = recentTrack.scrollLeft;
+    });
+    recentTrack.addEventListener('mouseleave', () => { isDown = false; recentTrack.classList.remove('dragging'); });
+    recentTrack.addEventListener('mouseup', () => { isDown = false; recentTrack.classList.remove('dragging'); });
+    recentTrack.addEventListener('mousemove', e => {
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - recentTrack.offsetLeft;
+      recentTrack.scrollLeft = scrollLeft - (x - startX) * 1.2;
+    });
+
+    /* ── RECENT SCROLL BUTTONS ── */
+    document.getElementById('recentPrev').addEventListener('click', () => {
+      recentTrack.scrollBy({ left: -recentTrack.offsetWidth * 0.55, behavior: 'smooth' });
+    });
+    document.getElementById('recentNext').addEventListener('click', () => {
+      recentTrack.scrollBy({ left: recentTrack.offsetWidth * 0.55, behavior: 'smooth' });
+    });
+
     const overlay      = document.getElementById('modalOverlay');
     const modalTag     = document.getElementById('modalTag');
     const modalTitle   = document.getElementById('modalTitle');
@@ -227,4 +320,3 @@
   </script>
 </body>
 </html>
-
