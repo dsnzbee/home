@@ -1,1 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">p4rachutes / dsnzb</div>
+    <a class="jump" href="#projects">view projects</a>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-copy">
+        <div class="eyebrow">Welcome to</div>
+        <h1>Main Hub</h1>
+        <p>
+          This is the main gateway to all my work,
+          bringing together my projects, ideas and portfolios into one connected space.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">see my work</a>
+          <a class="btn" href="#about">about me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <div id="about" class="about-strip">
+    <div class="about-inner">
+      <div class="about-text">
+        <span class="tag">about me</span>
+        <h2>Creating what I imagine</h2>
+        <p>
+          I’ve always been someone who likes creating things and understanding how stuff works whether it is designing projects, building worlds online,
+           experimenting with ideas or just spending hours thinking about aviation and technology. Most of my work usually starts from curiosity 
+           because I genuinely enjoy exploring new concepts and trying things on my own even if they take time to figure out. 
+           that is probably why every project here has a part of my thinking and personality behind it. <br>
+           <br>
+            Apart from development and design I am also deeply interested in aircraft systems and aerospace.<br> <br>
+            Coding languages: <br> Phython, HTML, CSS, Javascript, MySQL, LUA  and learning.<br> <br>
+            Other skills:<br> Music programming, Photography, Cinematography, 3D modeling, Game developing and more. 
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="num">06</div>
+          <div class="lbl">Coding Projects <br> (including freelance)</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">01 </div>
+          <div class="lbl">Current Experiences <br> (except freelance)</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">20+</div>
+          <div class="lbl">Developing projects<br> (including freelance)</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">06</div>
+          <div class="lbl">Coding languages</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──PORTFOLIOS ── -->
+  <section id="projects" class="section">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-header-left">
+          <h2 class="section-title">Portfolios</h2>
+          <p class="section-note">A collection of my portfolios.</p>
+        </div>
+      </div>
+      <div class="projects-grid" id="projectsGrid">
+        <!-- cards injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MODAL ── -->
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+    <div class="modal-frame" id="modalFrame">
+      <div id="modalImgWrap"></div>
+      <div class="modal-body">
+        <div class="modal-tag" id="modalTag">Developing</div>
+        <h2 id="modalTitle">Project Title</h2>
+        <p class="modal-desc" id="modalDesc">Description goes here.</p>
+        <div class="modal-footer">
+          <a class="modal-link" id="modalLink" href="#" target="_blank">
+            View Project
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <button class="modal-close" id="modalClose">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── PROJECT DATA — edit this to add/update projects ── */
+    const projects = [
+      {
+        title: "Developing portfolio",
+        tag: "developing",
+        thumb: "photo1.JPG",
+        desc: "",
+        year: "",
+        link: "https://dsnzbee.github.io/Re.Portfolio/"
+      },
+      {
+        title: "Photography portfolio",
+        tag: "photography",
+        thumb: "photo2.JPG",
+        desc: "",
+        year: "",
+        link: "https://dsnzbee.github.io/photos/"
+      },
+      {
+        title: "Coding portfolio",
+        tag: "Coming Soon",
+        thumb: "photo3.PNG",
+        desc: "COMING SOON",
+        year: "",
+        link: "#",
+        comingSoon: "true" 
+      },
+      {
+        title: "Music Portfolio",
+        tag: "Coming Soon",
+        thumb: "photo4.JPG",
+        desc: "COMING SOON",
+        year: "",
+        link: "#",
+        comingSoon: "true"
+      }
+    ];
+
+    const placeholderEmojis = ["🌿","🌅","✦","◎","◈"];
+
+    /* ── BUILD CARDS ── */
+    const grid = document.getElementById('projectsGrid');
+
+    projects.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+
+      const imgHtml = p.thumb
+        ? `<img src="${p.thumb}" alt="${p.title}" loading="lazy">`
+        : `<div class="img-placeholder"><span>${placeholderEmojis[i % placeholderEmojis.length]}</span></div>`;
+
+      card.innerHTML = `
+        <div class="project-card-img">
+          ${imgHtml}
+          <span class="project-card-tag">${p.tag}</span>
+        </div>
+        <div class="project-card-body">
+          <h3>${p.title}</h3>
+          <p class="project-card-desc">${p.desc}</p>
+          <div class="project-card-footer">
+            ${!p.comingSoon ? `<button class="card-see-more" data-index="${i}">
+              See more
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 6H11M11 6L7 2M11 6L7 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>` : ''}
+            <span class="card-meta">${p.year}</span>
+          </div>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+
+    /* ── MODAL LOGIC ── */
+    const overlay      = document.getElementById('modalOverlay');
+    const modalTag     = document.getElementById('modalTag');
+    const modalTitle   = document.getElementById('modalTitle');
+    const modalDesc    = document.getElementById('modalDesc');
+    const modalLink    = document.getElementById('modalLink');
+    const modalImgWrap = document.getElementById('modalImgWrap');
+    const closeBtn     = document.getElementById('modalClose');
+
+    function openModal(index){
+      const p = projects[index];
+      modalTag.textContent   = p.tag;
+      modalTitle.textContent = p.title;
+      modalDesc.textContent  = p.desc;
+      modalLink.href         = p.link;
+
+      if(p.thumb){
+        modalImgWrap.innerHTML = `<img class="modal-hero-img" src="${p.thumb}" alt="${p.title}">`;
+      } else {
+        modalImgWrap.innerHTML = `<div class="modal-hero-img placeholder-img">${placeholderEmojis[index % placeholderEmojis.length]}</div>`;
+      }
+
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.card-see-more');
+      if(btn){ openModal(parseInt(btn.dataset.index)); }
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', e => {
+      if(e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+  </script>
+</body>
+</html>
 
